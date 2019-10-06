@@ -1,0 +1,13 @@
+image: python:3.7-buster
+steps:
+  - pip3 install pipenv
+  - pipenv install --deploy --system
+  - sh -c "cd cicdmimic && python3 manage.py test"
+  - sh -c "cd cicdmimic && python3 manage.py diffsettings"
+env:
+  - MY_CUSTOM_VAR: some value here
+services:
+  - image: postgres:12.0-alpine
+    env:
+      POSTGRES_PASSWORD: supersecret
+

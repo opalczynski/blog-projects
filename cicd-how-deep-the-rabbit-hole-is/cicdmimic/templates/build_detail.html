@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Build details: #{{ object.id }}</h1>
+
+<ul>
+  <li>Result:
+    {% if object.result == 4 %}
+      PENDING
+    {% elif object.result == 3 %}
+      RUNNING
+    {% elif object.result == 2 %}
+      FAILURE
+    {% elif object.result == 1 %}
+      SUCCESS
+    {% endif %}
+  </li>
+  <li>Duration: {{ object.duration }} seconds</li>
+  <li>Started at: {{ object.started_at|date:"c" }}</li>
+  <li>Finished at: {{ object.finished_at|date:"c" }}</li>
+  <li>Stdout:
+    <ul>
+      {% if build_details %}
+        {% for step, output in build_details.items %}
+        <li><strong>{{ step }}</strong> <pre>{{ output }}</pre></li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </li>
+</ul>
+
+{% endblock %}

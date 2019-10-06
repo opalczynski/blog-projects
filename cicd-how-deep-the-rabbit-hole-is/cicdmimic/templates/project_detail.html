@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Project details: {{ object.name }}</h1>
+<p>path: {{ object.local_path }}</p>
+
+
+<form method="post" action="/builds/run/">
+  {% csrf_token %}
+  <input name="project" id="id_project" type="hidden" value="{{ project.id }}"/>
+  <button type="submit">Run build</button>
+</form>
+<hr>
+
+<form method="post" action="/variables/add/">
+  {% csrf_token %}
+  <input name="project" id="id_var_project" type="hidden" value="{{ project.id }}"/>
+  <p>Name: <input name="name" id="id_name" type="text"/></p>
+  <p>Value: <input name="value" id="id_value" type="text"/></p>
+  <button type="submit">Add variable</button>
+</form>
+
+<h2>Variables</h2>
+<ul>
+  {% for var in variables %}
+  <li>{{ var.name }}: {{ var.value }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Builds</h2>
+
+<ul>
+  {% for build in builds %}
+    <li><a href="/builds/{{ build.id }}/">Build: #{{ build.id }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
